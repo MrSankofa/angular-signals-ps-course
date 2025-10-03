@@ -19,6 +19,21 @@ export class ProductSelection {
 
   selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
 
+  onDecrease() {
+    this.quantity.update(currentQuantity => {
+      if(currentQuantity > 0) {
+        return currentQuantity - 1;
+      }
+      return currentQuantity;
+    });
+  }
+
+  onIncrease() {
+    this.quantity.update(currentQuantity =>
+      currentQuantity < 10 ? currentQuantity + 1 : currentQuantity
+    );
+  }
+
 }
 
 // test
