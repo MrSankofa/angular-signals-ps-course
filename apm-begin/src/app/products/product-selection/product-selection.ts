@@ -5,7 +5,7 @@ import {Product} from '../product';
 import {CurrencyPipe} from '@angular/common';
 import {ProductService} from '../product.service';
 import {ReviewList} from '../../reviews/review-list/review-list';
-import {fromEvent} from 'rxjs';
+import {filter, fromEvent, tap} from 'rxjs';
 
 // NOTE: two way binding with ngModel in the template requires the FormsModule
 @Component({
@@ -32,17 +32,12 @@ export class ProductSelection {
   showHelp = signal(false);
   questionMark$ = fromEvent<KeyboardEvent>(document, 'keydown');
 
-  questionSubscription = this.questionMark$.subscribe( e => {
+  questionSubscription = this.questionMark$.pipe(
+    filter(key => key.key === '?' || key.key === 'Escape'),
+    tap((key) => key.key === '?' ? this.showHelp.update( show => !show ) : this.showHelp.set(false)),
+    tap((key) => key.key === 'Escape' ? this.showHelp.set(false) : null)
 
-    if (e.key === '?') {
-      this.showHelp.update( current => !current);
-    }
-
-    if (e.key === 'Escape') {
-      this.showHelp.set(false);
-    }
-
-  } );
+  ).subscribe()
 
   errorMessage = computed(() => this.error() ? this.error()?.message : '');
 
