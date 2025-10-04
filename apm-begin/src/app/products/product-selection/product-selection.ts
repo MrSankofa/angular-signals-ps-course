@@ -5,6 +5,7 @@ import {Product} from '../product';
 import {CurrencyPipe} from '@angular/common';
 import {ProductService} from '../product.service';
 import {ReviewList} from '../../reviews/review-list/review-list';
+import {fromEvent} from 'rxjs';
 
 // NOTE: two way binding with ngModel in the template requires the FormsModule
 @Component({
@@ -27,6 +28,21 @@ export class ProductSelection {
   isLoading = this.productService.productsResource.isLoading;
 
   error = this.productService.productsResource.error;
+
+  showHelp = signal(false);
+  questionMark$ = fromEvent<KeyboardEvent>(document, 'keydown');
+
+  questionSubscription = this.questionMark$.subscribe( e => {
+
+    if (e.key === '?') {
+      this.showHelp.update( current => !current);
+    }
+
+    if (e.key === 'Escape') {
+      this.showHelp.set(false);
+    }
+
+  } );
 
   errorMessage = computed(() => this.error() ? this.error()?.message : '');
 
@@ -57,6 +73,9 @@ export class ProductSelection {
     );
   }
 
+  onDestroy() {
+    this.questionSubscription.unsubscribe();
+  }
 }
 
 // test
