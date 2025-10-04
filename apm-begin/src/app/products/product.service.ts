@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, signal, WritableSignal} from '@angular/core';
 import {httpResource} from '@angular/common/http';
 import {Product} from './product';
 
@@ -6,7 +6,9 @@ import {Product} from './product';
   providedIn: 'root'
 })
 export class ProductService {
-  private productsUrl = 'api/product';
+  private productsUrl = 'api/products';
+
+  selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
 
   productsResource = httpResource<Product[]>(() => this.productsUrl, { defaultValue: []});
 
@@ -15,5 +17,6 @@ export class ProductService {
   // createProducts() {
   //   return httpResource<Product []>(() => this.productsUrl, {defaultValue: []})
   // }
+
 
 }

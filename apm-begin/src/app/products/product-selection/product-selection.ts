@@ -4,11 +4,12 @@ import {ProductData} from '../product-data';
 import {Product} from '../product';
 import {CurrencyPipe} from '@angular/common';
 import {ProductService} from '../product.service';
+import {ReviewList} from '../../reviews/review-list/review-list';
 
 // NOTE: two way binding with ngModel in the template requires the FormsModule
 @Component({
   selector: 'app-product-selection',
-  imports: [FormsModule, CurrencyPipe],
+  imports: [FormsModule, CurrencyPipe, ReviewList],
   templateUrl: './product-selection.html',
   styleUrl: './product-selection.css'
 })
@@ -29,7 +30,7 @@ export class ProductSelection {
 
   errorMessage = computed(() => this.error() ? this.error()?.message : '');
 
-  selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
+  selectedProduct = this.productService.selectedProduct;
 
   quantity: WritableSignal<number> = linkedSignal({
     source: this.selectedProduct,
