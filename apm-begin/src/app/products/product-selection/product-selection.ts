@@ -18,6 +18,9 @@ export class ProductSelection {
   // TODO: what is the difference between inject and constructor
   private productService = inject(ProductService);
 
+  // productsResource = this.productService.createProducts();
+  //
+  // products = this.productsResource.value
   products = this.productService.productsResource.value
 
   selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
