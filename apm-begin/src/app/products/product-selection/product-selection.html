@@ -4,6 +4,13 @@
   </div>
 
 
+  @if (isLoading()) {
+    <div>...Loading Products</div>
+  } @else if (errorMessage()) {
+
+    <div style="color: tomato">An error occurred: {{errorMessage()}}</div>
+  } @else {
+
   <div class="grid">
     <div class="row">
       <div class="cellFull">
@@ -54,7 +61,7 @@
     </div>
   </div>
 
-
+  }
 
 
 

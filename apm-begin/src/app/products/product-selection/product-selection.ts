@@ -23,6 +23,12 @@ export class ProductSelection {
   // products = this.productsResource.value
   products = this.productService.productsResource.value
 
+  isLoading = this.productService.productsResource.isLoading;
+
+  error = this.productService.productsResource.error;
+
+  errorMessage = computed(() => this.error() ? this.error()?.message : '');
+
   selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
 
   quantity: WritableSignal<number> = linkedSignal({

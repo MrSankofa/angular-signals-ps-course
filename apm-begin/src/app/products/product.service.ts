@@ -6,7 +6,7 @@ import {Product} from './product';
   providedIn: 'root'
 })
 export class ProductService {
-  private productsUrl = 'api/products';
+  private productsUrl = 'api/product';
 
   productsResource = httpResource<Product[]>(() => this.productsUrl, { defaultValue: []});
 
