@@ -6,6 +6,7 @@ import {CurrencyPipe} from '@angular/common';
 import {ProductService} from '../product.service';
 import {ReviewList} from '../../reviews/review-list/review-list';
 import {filter, fromEvent, tap} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 // NOTE: two way binding with ngModel in the template requires the FormsModule
 @Component({
@@ -35,8 +36,8 @@ export class ProductSelection {
   questionSubscription = this.questionMark$.pipe(
     filter(key => key.key === '?' || key.key === 'Escape'),
     tap((key) => key.key === '?' ? this.showHelp.update( show => !show ) : this.showHelp.set(false)),
-    tap((key) => key.key === 'Escape' ? this.showHelp.set(false) : null)
-
+    tap((key) => key.key === 'Escape' ? this.showHelp.set(false) : null),
+    takeUntilDestroyed()
   ).subscribe()
 
   errorMessage = computed(() => this.error() ? this.error()?.message : '');
@@ -68,9 +69,6 @@ export class ProductSelection {
     );
   }
 
-  onDestroy() {
-    this.questionSubscription.unsubscribe();
-  }
 }
 
 // test
