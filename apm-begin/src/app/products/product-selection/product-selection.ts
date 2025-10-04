@@ -15,10 +15,10 @@ import {ProductService} from '../product.service';
 export class ProductSelection {
   pageTitle = 'Product Selection';
 
-  // TODO
-  productService = inject(ProductService);
+  // TODO: what is the difference between inject and constructor
+  private productService = inject(ProductService);
 
-  products: WritableSignal<Product[]> = signal(ProductData.products);
+  products = this.productService.productsResource.value
 
   selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
 

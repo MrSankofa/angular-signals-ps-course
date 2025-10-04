@@ -8,7 +8,12 @@ import {Product} from './product';
 export class ProductService {
   private productsUrl = 'api/products';
 
+  //: ToDO: Is this a signal?
   productsResource = httpResource<Product[]>(() => this.productsUrl, { defaultValue: []});
 
+  // this allows for us to get the products when we want. not when the productService is initialized
+  // createProducts() {
+  //   return httpResource<Product []>(() => this.productsUrl, {defaultValue: []})
+  // }
 
 }
